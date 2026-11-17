@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.MahjongAI" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Fallback window background for Android 11 and lower -->
+        <item name="android:windowBackground">@color/dark_green</item>
+    </style>
+</resources>

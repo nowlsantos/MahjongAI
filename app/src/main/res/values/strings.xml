@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">MahjongAI</string>
+    <string name="roll_for_dealer">Roll for Dealer</string>
+    <string name="roll_for_target_wall">Roll for Target Wall</string>
+    <string name="roll_to_break_wall">Roll to Break Wall</string>
+</resources>
