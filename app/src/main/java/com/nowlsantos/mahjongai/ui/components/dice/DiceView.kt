@@ -1,10 +1,14 @@
 package com.nowlsantos.mahjongai.ui.components.dice
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -12,14 +16,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.nowlsantos.mahjongai.R
 import com.nowlsantos.mahjongai.model.GameState
+import com.nowlsantos.mahjongai.model.PlayerState
 import com.nowlsantos.mahjongai.model.UIState
 import com.nowlsantos.mahjongai.presentation.DiceResult
 import com.nowlsantos.mahjongai.presentation.DiceRoller
 import com.nowlsantos.mahjongai.ui.controls.ControlButton
+import com.nowlsantos.mahjongai.ui.theme.BrightYellow
 import com.nowlsantos.mahjongai.ui.theme.CoolOrange
 import com.nowlsantos.mahjongai.ui.theme.CrimsonRed
 
@@ -43,6 +53,25 @@ fun DiceView(
 
         val currentDice = localDice ?: gameState.secondRollResult ?: gameState.firstRollResult
         val buttonWidth = 250.dp
+        val dealerName = gameState.players[gameState.dealerIndex]?.playerName
+            ?: PlayerState.getDefaultPlayerName(gameState.dealerIndex)
+        val targetWallName = gameState.players[gameState.targetWallPlayer]?.playerName
+            ?: PlayerState.getDefaultPlayerName(gameState.targetWallPlayer)
+        val contextLabel = when {
+            (gameState.firstRollResult == null) && (gameState.roundNumber <= 1) -> {
+                stringResource(R.string.dice_context_elect_dealer, gameState.roundNumber)
+            }
+            gameState.firstRollResult == null -> {
+                stringResource(R.string.dice_context_target_wall, gameState.roundNumber, dealerName)
+            }
+            gameState.secondRollResult == null -> {
+                stringResource(R.string.dice_context_break_wall, dealerName, targetWallName)
+            }
+            else -> {
+                val breakIndex = gameState.diceResult?.sum ?: gameState.secondRollResult.sum
+                stringResource(R.string.dice_context_breaking_wall, targetWallName, breakIndex)
+            }
+        }
 
         Box(
             modifier = Modifier
@@ -63,6 +92,21 @@ fun DiceView(
                     callback?.invoke()
                 },
                 modifier = Modifier.fillMaxSize()
+            )
+
+            Text(
+                text = contextLabel,
+                color = BrightYellow,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.SemiBold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .background(
+                        color = Color(0x99000000),
+                        shape = RoundedCornerShape(8.dp)
+                    )
+                    .padding(horizontal = 12.dp, vertical = 4.dp)
             )
         }
 

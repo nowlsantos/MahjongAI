@@ -3,4 +3,8 @@
     <string name="roll_for_dealer">Roll for Dealer</string>
     <string name="roll_for_target_wall">Roll for Target Wall</string>
     <string name="roll_to_break_wall">Roll to Break Wall</string>
+    <string name="dice_context_elect_dealer">Round %1$d · Roll to elect Dealer</string>
+    <string name="dice_context_target_wall">Round %1$d · Dealer: %2$s</string>
+    <string name="dice_context_break_wall">Dealer: %1$s · Target Wall: %2$s</string>
+    <string name="dice_context_breaking_wall">Breaking %1$s\u2019s Wall at stack %2$d</string>
 </resources>
